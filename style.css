@@ -1,0 +1,40 @@
+body{
+	background: #aaa;
+	margin: 60px 0 0 60px;
+}
+#canvas{
+	height: 450px;
+	width: 450px;
+	border: 1px solid black;
+	position: relative;
+	background: #f5c38b;
+}
+#square{
+	background: #663612;
+	height: 56.25px;
+	width: 56.25px;
+	position: absolute;
+}
+#square2{
+	background: #f5c38b;
+	height: 56.25px;
+	width: 56.25px;
+	position: absolute;
+}
+#fichas{
+	height: 55px;
+	width: 55px;
+	border-radius: 50%;
+	background: #ee222299;
+	position: absolute;
+	cursor: pointer;
+}
+#selector{
+	height: 40px;
+	width: 40px;
+	margin: 7.5px;
+	border-radius: 50%;
+	background: darkgreen;
+	position: absolute;
+	cursor: pointer;
+}
