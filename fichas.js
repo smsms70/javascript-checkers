@@ -14,6 +14,11 @@ const clean = () => {
 		})
 	})
 }
+const limits = a => b => {
+	if ((a <= 7 && a >= 0 && b <= 7 && b >= 0)) {
+		coordenades[a][b]
+	}
+}
 const selectors = (a, b, state) => funct =>{
 	const select = document.createElement('div');
 	select.setAttribute('id', 'selector');
@@ -26,21 +31,57 @@ const selectors = (a, b, state) => funct =>{
 		funct()
 	})
 }
-const fichas = (a, b) => {
+const fichas = (a, b) => black => {
 	const ficha = document.createElement('div');
 	canvas.appendChild(ficha);
 
-	ficha.setAttribute('id', 'fichas');
+	ficha.setAttribute('class', 'fichas');
 	if ((a <= 7 && a >= 0 && b <= 7 && b >= 0)) coordenades[a][b].appendChild(ficha);
 
-	ficha.addEventListener('click', () => {
-		clean()
-		selectors(a+1,b+1, ficha)(()=>{	a++; b++})
-		selectors(a+1,b-1, ficha)(()=>{ a++; b--})
-	})
+	if (!black) {
+		ficha.setAttribute('id', 'red');
+		ficha.addEventListener('click', () => {
+			clean()
+			document.querySelectorAll('#black').forEach(event =>{
+				if (event !== coordenades[a+1][b+1].lastChild) {
+					selectors(a+1,b+1, ficha)(()=>{	a++; b++})
+		 		}  else {
+		 			selectors(a+2,b+2, ficha)(()=>{ coordenades[a+1][b+1].removeChild(event); a = a+2; b = b +2; })
+		 			
+		 		}
+		 		if (event !== coordenades[a+1][b-1].lastChild) {
+					selectors(a+1,b-1, ficha)(()=>{ a++; b--})
+		 		}  else {
+					selectors(a+2,b-2, ficha)(()=>{ coordenades[a+1][b-1].removeChild(event); a = a+2; b = b-2 })
+					
+		 		}
+			})
+		})
+	}
+	if (black) {
+		ficha.setAttribute('id', 'black');
+		ficha.addEventListener('click', () => {
+			clean()
+			document.querySelectorAll('#red').forEach(event =>{
+				if (event !== coordenades[a-1][b-1].lastChild) {
+					selectors(a-1,b-1, ficha)(()=>{	a--; b--})
+		 		}  else {
+		 			selectors(a-2,b-2, ficha)(()=>{	coordenades[a-1][b-1].removeChild(event); a = a-2; b = b-2})
+		 		}
+		 		if (event !== coordenades[a-1][b+1].lastChild) {
+					selectors(a-1,b+1, ficha)(()=>{ a--; b++})
+		 		}  else {
+					selectors(a-2,b+2, ficha)(()=>{ coordenades[a-1][b+1].removeChild(event); a = a-2; b = b+2})
+		 		}
+			})
+		})
+	}
 }
-fichas(0,0)
-fichas(0,4)
-fichas(0,2)
-fichas(0,6)
-// fichas(6,6)
+fichas(0,0)(0)
+fichas(0,4)(0)
+fichas(0,2)(0)
+fichas(0,6)(0)
+fichas(7,7)(1)
+fichas(7,5)(1)
+fichas(7,3)(1)
+fichas(7,1)(1)

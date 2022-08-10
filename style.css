@@ -21,13 +21,16 @@ body{
 	width: 56.25px;
 	position: absolute;
 }
-#fichas{
+.fichas{
 	height: 55px;
 	width: 55px;
 	border-radius: 50%;
 	background: #ee222299;
 	position: absolute;
 	cursor: pointer;
+}
+#black{
+	background: #22559999;
 }
 #selector{
 	height: 40px;
