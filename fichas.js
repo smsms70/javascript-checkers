@@ -42,12 +42,16 @@ const movement = (a, b, event, ficha) => left => parameter1 => parameter2 => up 
 
 	if (!left) { b--; idk = (b <= 6 && b >= 0)}
 	if (left) {	b++; idk = (b <= 7 && b >= 1) }
-	if (up) { a--; down = (a <= 7 && a >=0 ) }
-	if (!up) { a++; down = (a <= 7 && a >=0) }
+	if (up) { a--; down = (a <= 7 && a >=0 && !f) }
+	if (!up) { a++; down = (a <= 7 && a >=0 && f) }
 
 	if (idk && down){
 		if (event !== coordenades[a][b].lastChild) {
-			selectors(a, b, ficha)(()=>{ parameter2()})
+			selectors(a, b, ficha)(()=>{ 
+				parameter2();
+				win_message(0)('red'); 
+				up ? f=true : f=false;
+			})
  		}  else {
  			selectors(up ? a-1 : a+1, left ? b+1 : b-1, ficha)(()=>{	
  				coordenades[a][b].removeChild(event); 
@@ -56,17 +60,17 @@ const movement = (a, b, event, ficha) => left => parameter1 => parameter2 => up 
 				left ? b++ : b--;
 				const double = () => {
 				// RIGHT
-				print('did')
-				print(coordenades[a][b+1])
 	 				if (b >= 0 && b <= 6 && a <= 6 && a >= 0 && coordenades[a][b+1].lastChild &&
 	 					coordenades[a][b+1].lastChild.id === event.id) {
 	 					// print(coordenades[a][b+1])
 	 				print('right')
 	 					selectors(up ? a-1 : a-1, b+2, ficha)(() => {
-
+	 						
 	 						parameter1()
 	 						coordenades[a][b+1].innerHTML = '';
-	 						// double()
+	 						double()
+	 						win_message(0)('red'); 
+	 						up ? f=true : f=false
 	 					})
 	 				}
 	 			// LEFT
@@ -78,28 +82,15 @@ const movement = (a, b, event, ficha) => left => parameter1 => parameter2 => up 
 
 	 						parameter1()
 	 						coordenades[a][b-1].innerHTML = '';
-	 						// double()
-
+	 						double()
+	 						win_message(0)('red'); 
+	 						up ? f=true : f=false
 	 					})
-						
 					}	
 				}
 				double()
- 				// print(coordenades[up ? a-2 : a+2][b-2])
- 				// if ((event == coordenades[up ? a-2 : a+2][b-2].lastChild)) {
- 				// 	print(coordenades[up ? a-2 : a+2][b-2])
- 				// 	print('left')
- 				// 	selectors(up ? a-3 : a+3,b-3, ficha)(()=>{	
-	 			// 		// print(coordenades[up ? a-2 : a+2][left ? b+2 : b-2])gg                           
-		 		// 		// coordenades[a][b].removeChild(event); 
-		 		// 		parameter1()
-		 		// 		win_message(0)('red'); 
-		 		// 		// up ? f=true : f=false
-		 		// 	})
- 				// // } else {
- 				// // 	win_message(0)('red'); 
-	 			// // 	up ? f=true : f=false
- 				// }		
+				win_message(0)('red'); 
+				up ? f=true : f=false
  			})
  		}
  	}
@@ -120,16 +111,11 @@ const fichas = (a, b) => black => {
 				movement(a,b,event,ficha)(1)(()=>{
 					a = a+2; 
 					b = b+2; 
-					// if (coordenades[a+1][b+1].lastChild.id === event.id) { print('right')} 
-					// if (coordenades[a+1][b-1].lastChild.id === event.id) { print('left')} 
-
 				})(()=>{a++; b++; })(0)
 			// TO LEFT
 				movement(a,b,event,ficha)(0)(()=>{
 					a = a+2; 
 					b = b-2; 
-					// if (coordenades[a+1][b+1].lastChild.id === event.id) { print(coordenades[a+1][b+1])} 
-					// if (coordenades[a+1][b-1].lastChild.id === event.id) { print(coordenades[a+1][b-1])} 
 				})(()=>{a++; b--; })(0)
 			})
 		})
@@ -142,7 +128,7 @@ const fichas = (a, b) => black => {
 			document.querySelectorAll('#red').forEach(event =>{
 			// TO LEFT
 				movement(a,b,event,ficha)(0)(()=>{
-					a = a-2; 
+					a = a-2;
 					b = b-2;
 				})(()=>{a--; b--; })(1)
 			// TO RIGHT
@@ -154,12 +140,20 @@ const fichas = (a, b) => black => {
 		})
 	}
 }
+fichas(0,0)(0)
+fichas(0,2)(0)
+fichas(0,4)(0)
+fichas(0,6)(0)
 fichas(1,1)(0)
-// fichas(0,2)(0)
+fichas(1,3)(0)
 fichas(1,5)(0)
-fichas(3,3)(0)
+fichas(1,7)(0)
 
-// fichas(4,4)(1)
-fichas(4,2)(0)
-fichas(7,3)(1)
+fichas(6,6)(1)
+fichas(6,4)(1)
+fichas(6,2)(1)
+fichas(6,0)(1)
 fichas(7,1)(1)
+fichas(7,3)(1)
+fichas(7,5)(1)
+fichas(7,7)(1)
